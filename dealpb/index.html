@@ -11,17 +11,19 @@
 
   <style>
     :root {
-      --green: #00c96b;
-      --green-dark: #00a855;
-      --green-light: #e6fff3;
-      --ink: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --bg: #f9fafb;
-      --white: #ffffff;
-      --star: #f59e0b;
-      --radius: 14px;
-      --shadow: 0 2px 16px rgba(0,0,0,0.07);
+      --green:       #00c566;
+      --green-dark:  #00a855;
+      --green-glow:  rgba(0, 197, 102, 0.18);
+      --green-muted: rgba(0, 197, 102, 0.12);
+      --bg:          #0d0f17;
+      --surface:     #13161f;
+      --card:        #191c28;
+      --border:      #242736;
+      --ink:         #f0f4ff;
+      --muted:       #7c85a2;
+      --star:        #f59e0b;
+      --radius:      14px;
+      --shadow:      0 2px 20px rgba(0,0,0,0.4);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,10 +39,12 @@
 
     /* ── NAV ── */
     nav {
-      background: var(--white);
+      background: rgba(13,15,23,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 24px;
-      height: 60px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -48,43 +52,57 @@
       top: 0;
       z-index: 100;
     }
-    .logo {
-      font-family: 'Fraunces', serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--ink);
+
+    /* ── FREECASH LOGO ── */
+    .fc-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .fc-logo-mark {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .fc-logo-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
       letter-spacing: -0.02em;
     }
-    .logo span { color: var(--green); }
+    .fc-logo-text span { color: var(--green); }
 
     /* ── HERO ── */
     .hero {
-      background: var(--white);
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,197,102,0.13) 0%, transparent 70%), var(--surface);
       text-align: center;
-      padding: 72px 24px 64px;
+      padding: 80px 24px 72px;
       border-bottom: 1px solid var(--border);
     }
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--green-light);
-      color: var(--green-dark);
-      font-size: 0.8rem;
+      background: var(--green-muted);
+      color: var(--green);
+      font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       padding: 5px 14px;
       border-radius: 100px;
       margin-bottom: 28px;
+      border: 1px solid rgba(0,197,102,0.2);
     }
-    .badge::before { content: "●"; font-size: 0.55rem; }
+    .badge::before { content: "●"; font-size: 0.5rem; }
 
     h1 {
       font-family: 'Fraunces', serif;
       font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 700;
-      line-height: 1.15;
+      line-height: 1.13;
       letter-spacing: -0.03em;
       color: var(--ink);
       max-width: 640px;
@@ -93,7 +111,7 @@
     h1 em { font-style: italic; color: var(--green); }
 
     .sub {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--muted);
       max-width: 480px;
       margin: 0 auto 36px;
@@ -105,7 +123,7 @@
       align-items: center;
       gap: 10px;
       background: var(--green);
-      color: var(--white);
+      color: #fff;
       font-family: 'DM Sans', sans-serif;
       font-size: 1.05rem;
       font-weight: 600;
@@ -115,19 +133,17 @@
       cursor: pointer;
       text-decoration: none;
       transition: background 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
-      box-shadow: 0 4px 20px rgba(0, 201, 107, 0.35);
+      box-shadow: 0 4px 24px rgba(0,197,102,0.4);
     }
     .cta-btn:hover {
       background: var(--green-dark);
       transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(0, 201, 107, 0.45);
+      box-shadow: 0 8px 32px rgba(0,197,102,0.5);
     }
     .cta-btn:active { transform: translateY(0); }
     .cta-btn svg { flex-shrink: 0; }
-
-    /* Dimmed state while bot timer hasn't elapsed yet */
     .cta-btn.not-ready {
-      opacity: 0.7;
+      opacity: 0.6;
       cursor: default;
       pointer-events: none;
     }
@@ -144,7 +160,7 @@
       align-items: center;
       gap: 8px;
       margin-top: 32px;
-      background: var(--bg);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: 100px;
       padding: 8px 20px;
@@ -159,9 +175,9 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
+      background: var(--surface);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      background: var(--white);
     }
     .stat {
       flex: 1;
@@ -175,7 +191,7 @@
       font-family: 'Fraunces', serif;
       font-size: 2rem;
       font-weight: 700;
-      color: var(--ink);
+      color: var(--green);
       display: block;
     }
     .stat-label { font-size: 0.83rem; color: var(--muted); margin-top: 2px; }
@@ -194,49 +210,50 @@
     .section-title em { font-style: italic; color: var(--green); }
 
     /* ── STEPS ── */
-    .steps { display: flex; flex-direction: column; gap: 20px; }
+    .steps { display: flex; flex-direction: column; gap: 16px; }
     .step {
       display: flex;
       align-items: flex-start;
       gap: 20px;
-      background: var(--white);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 28px;
       box-shadow: var(--shadow);
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-    .step:hover { transform: translateY(-2px); }
+    .step:hover { transform: translateY(-2px); border-color: rgba(0,197,102,0.3); }
     .step-num {
       flex-shrink: 0;
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--green-light);
-      color: var(--green-dark);
+      background: var(--green-muted);
+      color: var(--green);
       font-weight: 700;
       font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid rgba(0,197,102,0.2);
     }
-    .step-title { font-weight: 600; font-size: 1rem; margin-bottom: 4px; }
+    .step-title { font-weight: 600; font-size: 1rem; margin-bottom: 4px; color: var(--ink); }
     .step-desc { font-size: 0.9rem; color: var(--muted); }
 
     /* ── EARN CARDS ── */
     .earn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
     .earn-card {
-      background: var(--white);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 28px 24px;
       text-align: center;
       box-shadow: var(--shadow);
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-    .earn-card:hover { transform: translateY(-3px); }
+    .earn-card:hover { transform: translateY(-3px); border-color: rgba(0,197,102,0.3); }
     .earn-icon { font-size: 2rem; margin-bottom: 12px; }
-    .earn-title { font-weight: 600; font-size: 1rem; margin-bottom: 6px; }
+    .earn-title { font-weight: 600; font-size: 1rem; margin-bottom: 6px; color: var(--ink); }
     .earn-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.5; }
 
     /* ── CASHOUT ── */
@@ -244,39 +261,44 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
     }
     .cashout-pill {
-      background: var(--white);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: 100px;
       padding: 10px 22px;
       font-size: 0.9rem;
       font-weight: 500;
+      color: var(--ink);
       box-shadow: var(--shadow);
+      transition: border-color 0.15s ease;
     }
+    .cashout-pill:hover { border-color: rgba(0,197,102,0.35); }
 
     /* ── REVIEWS ── */
     .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
     .review-card {
-      background: var(--white);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 24px;
       box-shadow: var(--shadow);
+      transition: border-color 0.15s ease;
     }
+    .review-card:hover { border-color: rgba(0,197,102,0.25); }
     .review-stars { color: var(--star); font-size: 0.9rem; margin-bottom: 10px; }
-    .review-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 8px; }
+    .review-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 8px; color: var(--ink); }
     .review-text { font-size: 0.87rem; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
     .review-author { font-size: 0.8rem; font-weight: 600; color: var(--ink); }
-    .review-verified { font-size: 0.78rem; color: var(--green-dark); font-weight: 500; }
+    .review-verified { font-size: 0.78rem; color: var(--green); font-weight: 500; }
 
     /* ── FINAL CTA ── */
     .final-cta {
-      background: var(--ink);
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(0,197,102,0.1) 0%, transparent 70%), var(--surface);
+      border-top: 1px solid var(--border);
       text-align: center;
       padding: 80px 24px;
-      color: var(--white);
     }
     .final-cta h2 {
       font-family: 'Fraunces', serif;
@@ -284,14 +306,15 @@
       font-weight: 700;
       letter-spacing: -0.025em;
       margin-bottom: 16px;
+      color: var(--ink);
     }
     .final-cta h2 em { font-style: italic; color: var(--green); }
-    .final-cta p { color: #9ca3af; font-size: 0.95rem; margin-bottom: 36px; }
-    .final-cta .no-cc { color: #6b7280; margin-bottom: 0; }
+    .final-cta p { color: var(--muted); font-size: 0.95rem; margin-bottom: 36px; }
+    .final-cta .no-cc { margin-bottom: 0; margin-top: 14px; font-size: 0.82rem; }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--white);
+      background: var(--surface);
       border-top: 1px solid var(--border);
       padding: 28px 24px;
       text-align: center;
@@ -306,8 +329,8 @@
     #overlay {
       display: none;
       position: fixed; inset: 0;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(6px);
+      background: rgba(13,15,23,0.92);
+      backdrop-filter: blur(8px);
       z-index: 999;
       flex-direction: column;
       align-items: center;
@@ -317,7 +340,7 @@
     #overlay.show { display: flex; }
     .spinner {
       width: 44px; height: 44px;
-      border: 4px solid var(--border);
+      border: 3px solid var(--border);
       border-top-color: var(--green);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
@@ -333,17 +356,22 @@
     }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── MOBILE ── */
     @media (max-width: 600px) {
       .stat { border-right: none; border-bottom: 1px solid var(--border); }
       .stat:last-child { border-bottom: none; }
       .step { flex-direction: column; gap: 12px; }
+      .hero { padding: 56px 20px 56px; }
+      .section { padding: 56px 20px; }
+      .cta-btn { width: 100%; justify-content: center; }
+      .tp-strip { flex-wrap: wrap; justify-content: center; }
+      .earn-grid { grid-template-columns: 1fr; }
+      .reviews-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- Overlay: real users see a brief spinner before redirect.
-     Bots get this forever — no redirect fires. -->
 <div id="overlay">
   <div class="spinner"></div>
   <div class="overlay-text">Finding your offers…</div>
@@ -351,7 +379,14 @@
 
 <!-- Nav -->
 <nav>
-  <div class="logo">Deals<span>4</span>Real</div>
+  <a href="#" class="fc-logo">
+    <!-- FreeCash logo mark: green coin with star -->
+    <svg class="fc-logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="18" fill="#00c566"/>
+      <path d="M18 8l2.47 7.6H28l-6.18 4.49 2.36 7.27L18 22.9l-6.18 4.46 2.36-7.27L8 15.6h7.53L18 8z" fill="#fff"/>
+    </svg>
+    <span class="fc-logo-text">free<span>cash</span></span>
+  </a>
 </nav>
 
 <!-- Hero -->
@@ -360,7 +395,6 @@
   <h1>Get <em>paid</em> to play games,<br/>take surveys &amp; try apps</h1>
   <p class="sub">Cash out via PayPal, crypto, gift cards, or bank transfer. Thousands of offers available right now.</p>
 
-  <!-- Buttons start dimmed (not-ready). JS unlocks them after MIN_TIME_ON_PAGE. -->
   <a href="#" class="cta-btn not-ready" id="cta-hero" onclick="handleCTA(event)">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     Claim Your Free Account
@@ -505,7 +539,7 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     Sign Up for Free
   </a>
-  <p class="no-cc" style="margin-top:14px;">By signing up you agree to the Terms of Service and Privacy Policy.</p>
+  <p class="no-cc">By signing up you agree to the Terms of Service and Privacy Policy.</p>
 </section>
 
 <!-- Footer -->
@@ -521,95 +555,42 @@
 
 
 <script>
-  // ═══════════════════════════════════════════════════════════════════
-  //  CONFIGURATION
-  //  Fill these in before deploying. Leave placeholders as-is and the
-  //  postback / pixel blocks will silently skip themselves.
-  // ═══════════════════════════════════════════════════════════════════
-
   const CONFIG = {
-    // Your Glitchy affiliate click URL.
-    // Append your click ID macro if needed, e.g. ?clickid={clickid}
     OFFER_URL: "https://YOUR_GLITCHY_CLICK_URL_HERE",
-
-    // Your RedTrack postback URL (full URL with any conversion tokens)
     REDTRACK_POSTBACK: "https://YOUR_REDTRACK_POSTBACK_URL_HERE",
-
-    // Meta (Facebook) Pixel ID — paste yours or leave blank to skip
     META_PIXEL_ID: "YOUR_META_PIXEL_ID",
-
-    // Minimum milliseconds on page before CTA buttons unlock.
-    // 5000ms is the industry-recommended threshold. Avoids blocking
-    // real mobile users on slower mobile connections.
     MIN_TIME_ON_PAGE: 5000,
-
-    // Minimum ms between page load and first scroll/touch event.
-    // Under 800ms = physically impossible for a human to read + react.
     MIN_INTERACTION_DELAY: 800,
-
-    // Bot score threshold (0–100). At or above this = dead-end.
-    // 60 is tuned to block bots while preserving real mobile traffic.
     BOT_SCORE_THRESHOLD: 60,
-
-    // Whether to fire the RedTrack postback on a valid click.
     FIRE_POSTBACK: true,
   };
 
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  PASSIVE SIGNAL COLLECTION
-  //  All listeners fire silently in the background from page load.
-  //  We record WHEN events happen, not just IF — timing is the key
-  //  differentiator between bots and humans.
-  // ═══════════════════════════════════════════════════════════════════
-
   const pageLoadTime = Date.now();
+  let firstScrollTime = null;
+  let firstTouchTime  = null;
+  let mouseMoveCount  = 0;
+  let straightMoves   = 0;
+  let lastMouseX      = null;
+  let lastMouseY      = null;
 
-  let firstScrollTime   = null;   // timestamp of first scroll event
-  let firstTouchTime    = null;   // timestamp of first touchstart event
-  let mouseMoveCount    = 0;      // total mousemove events fired
-  let straightMoves     = 0;      // mousemove events on a perfectly straight axis
-  let lastMouseX        = null;
-  let lastMouseY        = null;
-
-  // Scroll — most reliable human signal on both desktop and mobile
   document.addEventListener("scroll", () => {
     if (!firstScrollTime) firstScrollTime = Date.now();
   }, { passive: true });
 
-  // Touch — primary signal for mobile (Facebook/Instagram traffic is ~80% mobile)
   document.addEventListener("touchstart", () => {
     if (!firstTouchTime) firstTouchTime = Date.now();
   }, { passive: true });
 
-  // Mouse movement — we track STRAIGHTNESS, not just presence.
-  // Real users are erratic. Bots move in perfect lines or perfect grids.
   document.addEventListener("mousemove", (e) => {
     mouseMoveCount++;
     if (lastMouseX !== null) {
       const dx = Math.abs(e.clientX - lastMouseX);
       const dy = Math.abs(e.clientY - lastMouseY);
-      // Perfectly horizontal or perfectly vertical = bot geometry
       if (dx === 0 || dy === 0) straightMoves++;
     }
     lastMouseX = e.clientX;
     lastMouseY = e.clientY;
   }, { passive: true });
-
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  BOT SCORING ENGINE
-  //  Returns a score 0–100. Each signal adds weighted points.
-  //  Hard fails return 100 immediately (definitive bot signals).
-  //  Softer signals accumulate — no single soft signal alone blocks.
-  //
-  //  Threshold: CONFIG.BOT_SCORE_THRESHOLD (default 60)
-  //  Tuning guide:
-  //    Lower threshold (e.g. 50) → stricter, may catch more bots
-  //    but slightly more false positives on unusual mobile browsers.
-  //    Higher threshold (e.g. 75) → more permissive, lets more
-  //    borderline traffic through.
-  // ═══════════════════════════════════════════════════════════════════
 
   function getBotScore() {
     let score = 0;
@@ -617,250 +598,92 @@
     const timeOnPage = now - pageLoadTime;
     const ua = navigator.userAgent || "";
 
-    // ── HARD FAILS: return 100 immediately ────────────────────────
-
-    // Known bot/crawler UAs. Includes Facebook's own preview bot
-    // (facebookexternalhit) which visits landers to verify ad content —
-    // it should NEVER be redirected to the offer.
     const botUA = /bot|crawl|spider|slurp|mediapartners|adsbot|facebookexternalhit|linkedinbot|twitterbot|whatsapp|curl|python|java|wget|headless|phantom|puppeteer|playwright/i;
     if (botUA.test(ua)) return 100;
-
-    // Selenium / WebDriver / automation flag — set to true by all
-    // major automation frameworks unless explicitly spoofed.
     if (navigator.webdriver === true) return 100;
-
-    // Alternate webdriver flag sometimes set by older tools
     if (document.documentElement && document.documentElement.getAttribute("webdriver")) return 100;
-
-    // No screen = true headless (no graphical environment at all)
     if (!window.screen || !window.screen.width || !window.screen.height) return 100;
-
-    // Zero viewport = headless or sandboxed iframe with no visible area
     if (window.innerWidth === 0 || window.innerHeight === 0) return 100;
 
-
-    // ── TIME SIGNALS ──────────────────────────────────────────────
-
-    // Under MIN_TIME_ON_PAGE: page not read, CTA shouldn't have fired.
-    // (Belt-and-suspenders — CTA is also pointer-events:none until timer.)
     if (timeOnPage < CONFIG.MIN_TIME_ON_PAGE) score += 40;
-
-    // First real interaction (scroll or touch) happened impossibly fast.
-    // Under 800ms after page load: no human reads + reacts that fast.
     const firstInteraction = firstScrollTime || firstTouchTime;
-    if (firstInteraction && (firstInteraction - pageLoadTime) < CONFIG.MIN_INTERACTION_DELAY) {
-      score += 35;
-    }
-
-
-    // ── INTERACTION SIGNALS ───────────────────────────────────────
-
-    // No scroll AND no touch at all.
-    // On mobile (80%+ of Meta traffic): humans ALWAYS scroll.
-    // On desktop: humans almost always move the mouse or scroll.
-    // A complete absence of both is a strong bot signal.
-    // NOTE: mousemove alone is intentionally excluded — trivially faked.
+    if (firstInteraction && (firstInteraction - pageLoadTime) < CONFIG.MIN_INTERACTION_DELAY) score += 35;
     if (!firstScrollTime && !firstTouchTime) score += 30;
-
-    // Mouse movement is suspiciously robotic.
-    // If >60% of all moves fall on a perfectly straight axis (dx=0 or dy=0),
-    // that's a bot navigating programmatically, not a human.
-    if (mouseMoveCount > 10 && (straightMoves / mouseMoveCount) > 0.6) {
-      score += 20;
-    }
-
-
-    // ── ENVIRONMENT SIGNALS ───────────────────────────────────────
-
-    // Classic headless Chrome default viewport (800×600).
-    // No production Meta ad delivers to a user with this exact resolution.
+    if (mouseMoveCount > 10 && (straightMoves / mouseMoveCount) > 0.6) score += 20;
     if (window.innerWidth === 800 && window.innerHeight === 600) score += 20;
-
-    // No touch capability + zero mouse movement.
-    // Every real desktop user moves a mouse at some point.
-    // Every real mobile user triggers touchstart.
     const hasTouch = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
     if (!hasTouch && mouseMoveCount === 0) score += 15;
-
-    // No language set — uncommon in real browsers, common in minimal
-    // headless environments that don't bother setting Accept-Language.
     if (!navigator.language || navigator.language.trim() === "") score += 15;
-
-
-    // ── BROWSER CONSISTENCY CHECKS ────────────────────────────────
-
-    // UA claims to be Chrome, but window.chrome is missing.
-    // Real Chrome always exposes window.chrome. Bots faking a Chrome UA
-    // without running real Chrome often miss this object.
     const looksLikeChrome = /Chrome\//.test(ua) && !/Chromium/.test(ua);
     if (looksLikeChrome && typeof window.chrome === "undefined") score += 20;
-
-    // UA claims to be Chrome but is missing standard Chrome vendor string.
-    // Real Chrome reports navigator.vendor = "Google Inc."
     if (looksLikeChrome && navigator.vendor !== "Google Inc.") score += 15;
 
     return Math.min(score, 100);
   }
 
-  function isSuspectedBot() {
-    return getBotScore() >= CONFIG.BOT_SCORE_THRESHOLD;
-  }
-
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  CTA READINESS GATE
-  //  Both CTA buttons start with class "not-ready":
-  //    - opacity: 0.7, pointer-events: none
-  //  After MIN_TIME_ON_PAGE ms, the class is removed and buttons unlock.
-  //
-  //  Effect: any bot that clicks in the first 5 seconds either can't
-  //  click at all (pointer-events: none) or hits the dead-end overlay
-  //  if it bypasses CSS. Real users are still reading the page.
-  // ═══════════════════════════════════════════════════════════════════
+  function isSuspectedBot() { return getBotScore() >= CONFIG.BOT_SCORE_THRESHOLD; }
 
   let ctaReady = false;
-
   setTimeout(() => {
     ctaReady = true;
     document.querySelectorAll(".cta-btn").forEach(btn => btn.classList.remove("not-ready"));
   }, CONFIG.MIN_TIME_ON_PAGE);
 
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  URL PARAMETER PASSTHROUGH
-  //  Reads inbound URL params and appends them to the offer URL.
-  //  Keeps your full attribution chain intact:
-  //    Meta → RedTrack click ID → Glitchy → your postback
-  // ═══════════════════════════════════════════════════════════════════
-
   function buildOfferUrl() {
     const inbound  = new URLSearchParams(window.location.search);
     const outbound = new URL(CONFIG.OFFER_URL);
-
-    // All common tracker params — add more here if your setup uses them
-    const passthrough = [
-      "clickid", "click_id",
-      "sub1", "sub2", "sub3", "sub4", "sub5",
-      "gclid", "fbclid", "ttclid",
-      "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
-      "aff_id", "offer_id", "transaction_id"
-    ];
-
-    passthrough.forEach(key => {
+    ["clickid","click_id","sub1","sub2","sub3","sub4","sub5","gclid","fbclid","ttclid",
+     "utm_source","utm_medium","utm_campaign","utm_content","utm_term",
+     "aff_id","offer_id","transaction_id"].forEach(key => {
       if (inbound.has(key)) outbound.searchParams.set(key, inbound.get(key));
     });
-
     return outbound.toString();
   }
-
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  POSTBACK FIRE
-  //  Fires your RedTrack postback URL before redirect using
-  //  sendBeacon (non-blocking, survives page unload) with an
-  //  img fallback for older environments.
-  // ═══════════════════════════════════════════════════════════════════
 
   function firePostback() {
     if (!CONFIG.FIRE_POSTBACK) return;
     if (!CONFIG.REDTRACK_POSTBACK || CONFIG.REDTRACK_POSTBACK.includes("YOUR_")) return;
-
     try {
       const inbound = new URLSearchParams(window.location.search);
       const url = new URL(CONFIG.REDTRACK_POSTBACK);
-
-      // Pass click ID through so RedTrack can match the conversion
-      ["clickid", "click_id", "transaction_id"].forEach(k => {
+      ["clickid","click_id","transaction_id"].forEach(k => {
         if (inbound.has(k)) url.searchParams.set(k, inbound.get(k));
       });
-
       if (navigator.sendBeacon) {
         navigator.sendBeacon(url.toString());
       } else {
-        const img = new Image();
-        img.src = url.toString();
+        new Image().src = url.toString();
       }
-    } catch (err) {
-      console.warn("[postback] fire error:", err);
-    }
+    } catch (err) { console.warn("[postback] fire error:", err); }
   }
-
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  META PIXEL
-  //  Initialized only if META_PIXEL_ID is set.
-  //  PageView fires on load (for reach/awareness reporting).
-  //  Lead fires on valid human CTA click (for optimization signal).
-  // ═══════════════════════════════════════════════════════════════════
 
   (function initMetaPixel() {
     if (!CONFIG.META_PIXEL_ID || CONFIG.META_PIXEL_ID.includes("YOUR_")) return;
-    /* eslint-disable */
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){
     n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
     t=b.createElement(e);t.async=!0;t.src=v;
     s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
     }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    /* eslint-enable */
     fbq('init', CONFIG.META_PIXEL_ID);
     fbq('track', 'PageView');
   })();
 
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  MAIN CTA HANDLER
-  //  Called by both CTA buttons via onclick.
-  //  Flow:
-  //    1. Ignore if CTA not ready yet (belt-and-suspenders)
-  //    2. Score the visitor
-  //    3. Bot → show dead-end overlay, no redirect, no postback
-  //    4. Human → overlay + postback + pixel + redirect
-  // ═══════════════════════════════════════════════════════════════════
-
   function handleCTA(e) {
     e.preventDefault();
-
-    // Shouldn't be reachable while not-ready (pointer-events:none),
-    // but guard anyway in case of JS-controlled clicks.
     if (!ctaReady) return;
-
     const score = getBotScore();
-
     if (score >= CONFIG.BOT_SCORE_THRESHOLD) {
-      // Dead-end: show spinner, disappear after 5s, go nowhere.
-      // From the bot's perspective the page "loaded" something.
-      // No postback fires. No pixel Lead event fires.
       const overlay = document.getElementById("overlay");
       overlay.classList.add("show");
       setTimeout(() => overlay.classList.remove("show"), 5000);
       return;
     }
-
-    // ── VALID HUMAN CLICK ─────────────────────────────────────────
-
-    // Show spinner briefly (feels intentional, matches expectations)
     document.getElementById("overlay").classList.add("show");
-
-    // 1. Fire RedTrack postback (attribution)
     firePostback();
-
-    // 2. Fire Meta Lead event (optimization signal — only from humans)
-    if (typeof fbq !== "undefined") {
-      fbq("track", "Lead");
-    }
-
-    // 3. Redirect to offer after short delay
-    setTimeout(() => {
-      window.location.href = buildOfferUrl();
-    }, 800);
+    if (typeof fbq !== "undefined") fbq("track", "Lead");
+    setTimeout(() => { window.location.href = buildOfferUrl(); }, 800);
   }
-
-
-  // ═══════════════════════════════════════════════════════════════════
-  //  SCROLL-BASED FADE-IN ANIMATIONS
-  //  Elements with .fade-up animate in as they enter the viewport.
-  // ═══════════════════════════════════════════════════════════════════
 
   const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -872,7 +695,6 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll(".fade-up").forEach(el => fadeObserver.observe(el));
-
 </script>
 </body>
 </html>
