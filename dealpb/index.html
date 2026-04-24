@@ -7,31 +7,31 @@
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script type="text/javascript" src="https://trk.thecashdeals.com/track.js"></script>
 
   <style>
     :root {
       --green:       #00c566;
-      --green-dark:  #00a855;
-      --green-glow:  rgba(0, 197, 102, 0.18);
-      --green-muted: rgba(0, 197, 102, 0.12);
-      --bg:          #0d0f17;
-      --surface:     #13161f;
-      --card:        #191c28;
-      --border:      #242736;
-      --ink:         #f0f4ff;
-      --muted:       #7c85a2;
+      --green-dark:  #00a348;
+      --green-glow:  rgba(0, 197, 102, 0.22);
+      --green-muted: rgba(0, 197, 102, 0.1);
+      --bg:          #12141d;
+      --surface:     #191c27;
+      --card:        #1e2130;
+      --border:      #2a2d3d;
+      --ink:         #ffffff;
+      --muted:       #8b92b0;
       --star:        #f59e0b;
-      --radius:      14px;
-      --shadow:      0 2px 20px rgba(0,0,0,0.4);
+      --radius:      12px;
+      --shadow:      0 4px 24px rgba(0,0,0,0.5);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--ink);
       line-height: 1.6;
@@ -58,22 +58,13 @@
     .fc-logo {
       display: flex;
       align-items: center;
-      gap: 10px;
       text-decoration: none;
     }
-    .fc-logo-mark {
-      width: 36px;
+    .fc-logo img {
       height: 36px;
-      flex-shrink: 0;
+      width: auto;
+      mix-blend-mode: lighten;
     }
-    .fc-logo-text {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -0.02em;
-    }
-    .fc-logo-text span { color: var(--green); }
 
     /* ── HERO ── */
     .hero {
@@ -100,16 +91,16 @@
     .badge::before { content: "●"; font-size: 0.5rem; }
 
     h1 {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 700;
-      line-height: 1.13;
-      letter-spacing: -0.03em;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
       color: var(--ink);
-      max-width: 640px;
+      max-width: 660px;
       margin: 0 auto 20px;
     }
-    h1 em { font-style: italic; color: var(--green); }
+    h1 em { font-style: normal; color: var(--green); }
 
     .sub {
       font-size: 1.05rem;
@@ -125,7 +116,7 @@
       gap: 10px;
       background: var(--green);
       color: #fff;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 1.05rem;
       font-weight: 600;
       padding: 16px 36px;
@@ -189,7 +180,7 @@
     }
     .stat:last-child { border-right: none; }
     .stat-num {
-      font-family: 'Fraunces', serif;
+      font-family: 'Inter', sans-serif;
       font-size: 2rem;
       font-weight: 700;
       color: var(--green);
@@ -200,15 +191,15 @@
     /* ── SECTIONS ── */
     .section { padding: 72px 24px; max-width: 860px; margin: 0 auto; }
     .section-title {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
       text-align: center;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.03em;
       margin-bottom: 48px;
       color: var(--ink);
     }
-    .section-title em { font-style: italic; color: var(--green); }
+    .section-title em { font-style: normal; color: var(--green); }
 
     /* ── STEPS ── */
     .steps { display: flex; flex-direction: column; gap: 16px; }
@@ -302,7 +293,7 @@
       padding: 80px 24px;
     }
     .final-cta h2 {
-      font-family: 'Fraunces', serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(1.6rem, 4vw, 2.6rem);
       font-weight: 700;
       letter-spacing: -0.025em;
@@ -381,12 +372,7 @@
 <!-- Nav -->
 <nav>
   <a href="#" class="fc-logo">
-    <!-- FreeCash logo mark: green coin with star -->
-    <svg class="fc-logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="18" cy="18" r="18" fill="#00c566"/>
-      <path d="M18 8l2.47 7.6H28l-6.18 4.49 2.36 7.27L18 22.9l-6.18 4.46 2.36-7.27L8 15.6h7.53L18 8z" fill="#fff"/>
-    </svg>
-    <span class="fc-logo-text">free<span>cash</span></span>
+    <img src="logo.png" alt="Freecash" />
   </a>
 </nav>
 
