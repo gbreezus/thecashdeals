@@ -7,21 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script>
-    // Capture tracking params immediately before any ITP interference
-    (function() {
-      var p = new URLSearchParams(window.location.search);
-      var cid = p.get('rtkcid') || p.get('clickid') || p.get('click_id') || '';
-      var cmp = p.get('rtkcmpid') || '';
-      if (cid) sessionStorage.setItem('_rtkcid', cid);
-      if (cmp) sessionStorage.setItem('_rtkcmpid', cmp);
-      ['sub1','sub2','sub3','sub4','sub5','utm_source','utm_medium','utm_campaign',
-       'utm_content','utm_term','gclid','fbclid','ttclid'].forEach(function(k) {
-        if (p.get(k)) sessionStorage.setItem('_' + k, p.get(k));
-      });
-    })();
-  </script>
-  <script async src="https://trk.thecashdeals.com/track.js"></script>
+  <script src="https://trk.thecashdeals.com/track.js"></script>
 
   <style>
     :root {
@@ -344,29 +330,6 @@
     footer a { color: var(--muted); text-decoration: underline; }
     .divider { border: none; border-top: 1px solid var(--border); }
 
-    /* ── LOADING OVERLAY ── */
-    #overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(13,15,23,0.92);
-      backdrop-filter: blur(8px);
-      z-index: 999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-    }
-    #overlay.show { display: flex; }
-    .spinner {
-      width: 44px; height: 44px;
-      border: 3px solid var(--border);
-      border-top-color: var(--green);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .overlay-text { font-weight: 600; color: var(--ink); font-size: 1rem; }
-
     /* ── ANIMATIONS ── */
     .fade-up {
       opacity: 0;
@@ -391,11 +354,6 @@
 </head>
 <body>
 
-<div id="overlay">
-  <div class="spinner"></div>
-  <div class="overlay-text">Finding your offers…</div>
-</div>
-
 <!-- Nav -->
 <nav>
   <a href="#" class="fc-logo">
@@ -410,7 +368,7 @@
   <h1>Get <em>paid</em> to play games,<br/>take surveys &amp; try apps</h1>
   <p class="sub">Cash out via PayPal, crypto, gift cards, or bank transfer. Thousands of offers available right now.</p>
 
-  <a href="https://trk.thecashdeals.com/click?clickid={clickid}" class="cta-btn" id="cta-hero" onclick="handleCTA(event)">
+  <a href="https://trk.thecashdeals.com/click" class="cta-btn" id="cta-hero" target="_blank" rel="noopener">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     Claim Your Free Account
   </a>
@@ -550,7 +508,7 @@
 <section class="final-cta">
   <h2>Ready to start <em>earning?</em></h2>
   <p>Join hundreds of thousands of users earning online — free to join, no card needed.</p>
-  <a href="https://trk.thecashdeals.com/click?clickid={clickid}" class="cta-btn" id="cta-bottom" onclick="handleCTA(event)">
+  <a href="https://trk.thecashdeals.com/click" class="cta-btn" id="cta-bottom" target="_blank" rel="noopener">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     Sign Up for Free
   </a>
@@ -570,33 +528,6 @@
 
 
 <script>
-  const FALLBACK_URL = "https://linkthem.net/aff_c?offer_id=3817&aff_id=174994&source_id=facebook";
-
-  function getCookie(name) {
-    const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-    return m ? decodeURIComponent(m[1]) : null;
-  }
-
-  function getClickId() {
-    const p = new URLSearchParams(window.location.search);
-    return p.get('rtkcid')
-      || p.get('clickid')
-      || window.rtkClickID
-      || getCookie('rtkclickid-store')
-      || sessionStorage.getItem('_rtkcid')
-      || '';
-  }
-
-  function handleCTA(e) {
-    e.preventDefault();
-    const cid = getClickId();
-    const url = cid
-      ? 'https://trk.thecashdeals.com/click?clickid=' + encodeURIComponent(cid)
-      : FALLBACK_URL;
-    document.getElementById("overlay").classList.add("show");
-    setTimeout(() => { window.location.href = url; }, 800);
-  }
-
   const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
