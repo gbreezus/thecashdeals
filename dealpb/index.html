@@ -570,7 +570,7 @@
 
 
 <script>
-  const BASE_URL = "https://linkthem.net/aff_c?offer_id=3817&aff_id=174994&source={clickid}&source_id=facebook";
+  const CLICK_URL = "https://trk.thecashdeals.com/click";
 
   function getCookie(name) {
     const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
@@ -580,6 +580,7 @@
   function buildOfferUrl() {
     const inbound = new URLSearchParams(window.location.search);
     const ss = sessionStorage;
+    const outbound = new URL(CLICK_URL);
 
     const clickid = ss.getItem('_rtkcid')
       || inbound.get('rtkcid')
@@ -588,7 +589,19 @@
       || getCookie('rtkclickid-store')
       || '';
 
-    return BASE_URL.replace('{clickid}', encodeURIComponent(clickid));
+    if (clickid) outbound.searchParams.set('clickid', clickid);
+
+    const cmpid = ss.getItem('_rtkcmpid') || inbound.get('rtkcmpid') || window.campaignID || '';
+    if (cmpid) outbound.searchParams.set('rtkcmpid', cmpid);
+
+    outbound.searchParams.set('rtkck', window.cachebuster || Date.now());
+
+    const fbp = getCookie('_fbp') || window.rtkfbp || '';
+    const fbc = getCookie('_fbc') || window.rtkfbc || '';
+    if (fbp) outbound.searchParams.set('sub19', fbp);
+    if (fbc) outbound.searchParams.set('sub20', fbc);
+
+    return outbound.toString();
   }
 
   function handleCTA(e) {
