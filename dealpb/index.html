@@ -410,7 +410,7 @@
   <h1>Get <em>paid</em> to play games,<br/>take surveys &amp; try apps</h1>
   <p class="sub">Cash out via PayPal, crypto, gift cards, or bank transfer. Thousands of offers available right now.</p>
 
-  <a href="#" class="cta-btn" id="cta-hero" onclick="handleCTA(event)">
+  <a href="https://trk.thecashdeals.com/click?clickid={clickid}" class="cta-btn" id="cta-hero" onclick="handleCTA(event)">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     Claim Your Free Account
   </a>
@@ -550,7 +550,7 @@
 <section class="final-cta">
   <h2>Ready to start <em>earning?</em></h2>
   <p>Join hundreds of thousands of users earning online — free to join, no card needed.</p>
-  <a href="#" class="cta-btn" id="cta-bottom" onclick="handleCTA(event)">
+  <a href="https://trk.thecashdeals.com/click?clickid={clickid}" class="cta-btn" id="cta-bottom" onclick="handleCTA(event)">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     Sign Up for Free
   </a>
@@ -570,44 +570,11 @@
 
 
 <script>
-  const CLICK_URL = "https://trk.thecashdeals.com/click";
-
-  function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-    return match ? decodeURIComponent(match[1]) : null;
-  }
-
-  function buildOfferUrl() {
-    const inbound = new URLSearchParams(window.location.search);
-    const ss = sessionStorage;
-    const outbound = new URL(CLICK_URL);
-
-    const clickid = ss.getItem('_rtkcid')
-      || inbound.get('rtkcid')
-      || inbound.get('clickid')
-      || window.rtkClickID
-      || getCookie('rtkclickid-store')
-      || '';
-
-    if (clickid) outbound.searchParams.set('clickid', clickid);
-
-    const cmpid = ss.getItem('_rtkcmpid') || inbound.get('rtkcmpid') || window.campaignID || '';
-    if (cmpid) outbound.searchParams.set('rtkcmpid', cmpid);
-
-    outbound.searchParams.set('rtkck', window.cachebuster || Date.now());
-
-    const fbp = getCookie('_fbp') || window.rtkfbp || '';
-    const fbc = getCookie('_fbc') || window.rtkfbc || '';
-    if (fbp) outbound.searchParams.set('sub19', fbp);
-    if (fbc) outbound.searchParams.set('sub20', fbc);
-
-    return outbound.toString();
-  }
-
   function handleCTA(e) {
     e.preventDefault();
+    const url = e.currentTarget.href;
     document.getElementById("overlay").classList.add("show");
-    setTimeout(() => { window.location.href = buildOfferUrl(); }, 800);
+    setTimeout(() => { window.location.href = url; }, 800);
   }
 
   const fadeObserver = new IntersectionObserver((entries) => {
