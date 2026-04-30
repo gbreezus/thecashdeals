@@ -8,6 +8,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    // Capture tracking params immediately before any ITP interference
+    (function() {
+      var p = new URLSearchParams(window.location.search);
+      var cid = p.get('rtkcid') || p.get('clickid') || p.get('click_id') || '';
+      var cmp = p.get('rtkcmpid') || '';
+      if (cid) sessionStorage.setItem('_rtkcid', cid);
+      if (cmp) sessionStorage.setItem('_rtkcmpid', cmp);
+      ['sub1','sub2','sub3','sub4','sub5','utm_source','utm_medium','utm_campaign',
+       'utm_content','utm_term','gclid','fbclid','ttclid'].forEach(function(k) {
+        if (p.get(k)) sessionStorage.setItem('_' + k, p.get(k));
+      });
+    })();
+  </script>
   <script async src="https://trk.thecashdeals.com/track.js"></script>
 
   <style>
@@ -550,35 +564,36 @@
   function buildOfferUrl() {
     const inbound  = new URLSearchParams(window.location.search);
     const outbound = new URL(RedTracKCampUrl);
+    const ss = sessionStorage;
 
-    // Resolve the click ID — track.js uses rtkcid in URL, rtkClickID as global, rtkclickid-store as cookie
-    const clickid = inbound.get('rtkcid')
+    // Click ID — sessionStorage wins (immune to Safari ITP), then track.js globals, then cookies
+    const clickid = ss.getItem('_rtkcid')
+      || inbound.get('rtkcid')
       || inbound.get('clickid')
       || window.rtkClickID
       || getCookie('rtkclickid-store')
-      || getCookie('clickid')
       || '';
 
     if (clickid) outbound.searchParams.set('clickid', clickid);
 
     // Campaign ID
-    const cmpid = inbound.get('rtkcmpid') || window.campaignID || '';
+    const cmpid = ss.getItem('_rtkcmpid') || inbound.get('rtkcmpid') || window.campaignID || '';
     if (cmpid) outbound.searchParams.set('rtkcmpid', cmpid);
 
     // Cache buster
-    const cb = window.cachebuster || Date.now();
-    outbound.searchParams.set('rtkck', cb);
+    outbound.searchParams.set('rtkck', window.cachebuster || Date.now());
 
-    // Facebook params track.js picks up
+    // Facebook params
     const fbp = getCookie('_fbp') || window.rtkfbp || '';
     const fbc = getCookie('_fbc') || window.rtkfbc || '';
     if (fbp) outbound.searchParams.set('sub19', fbp);
     if (fbc) outbound.searchParams.set('sub20', fbc);
 
-    // Forward any extra UTM / sub params from inbound URL
+    // UTM / sub params
     ["sub1","sub2","sub3","sub4","sub5","gclid","fbclid","ttclid",
      "utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(key => {
-      if (inbound.has(key)) outbound.searchParams.set(key, inbound.get(key));
+      const val = ss.getItem('_' + key) || inbound.get(key);
+      if (val) outbound.searchParams.set(key, val);
     });
 
     return outbound.toString();
