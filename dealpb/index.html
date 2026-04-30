@@ -570,13 +570,29 @@
 
 
 <script>
+  const FALLBACK_URL = "https://linkthem.net/aff_c?offer_id=3817&aff_id=174994&source_id=facebook";
+
+  function getCookie(name) {
+    const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  function getClickId() {
+    const p = new URLSearchParams(window.location.search);
+    return p.get('rtkcid')
+      || p.get('clickid')
+      || window.rtkClickID
+      || getCookie('rtkclickid-store')
+      || sessionStorage.getItem('_rtkcid')
+      || '';
+  }
+
   function handleCTA(e) {
     e.preventDefault();
-    let url = e.currentTarget.href;
-    // If track.js didn't substitute the placeholder, strip it out cleanly
-    if (url.includes('{clickid}')) {
-      url = url.replace('clickid={clickid}', '').replace(/[?&]$/, '');
-    }
+    const cid = getClickId();
+    const url = cid
+      ? 'https://trk.thecashdeals.com/click?clickid=' + encodeURIComponent(cid)
+      : FALLBACK_URL;
     document.getElementById("overlay").classList.add("show");
     setTimeout(() => { window.location.href = url; }, 800);
   }
