@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script type="text/javascript" src="https://trk.thecashdeals.com/track.js"></script>
+  <script async src="https://trk.thecashdeals.com/track.js"></script>
 
   <style>
     :root {
@@ -542,14 +542,39 @@
 <script>
   const RedTracKCampUrl = "https://trk.thecashdeals.com/click";
 
+  // Read a cookie by name
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
   function buildOfferUrl() {
     const inbound  = new URLSearchParams(window.location.search);
     const outbound = new URL(RedTracKCampUrl);
-    ["clickid","click_id","sub1","sub2","sub3","sub4","sub5","gclid","fbclid","ttclid",
-     "utm_source","utm_medium","utm_campaign","utm_content","utm_term",
-     "aff_id","offer_id","transaction_id"].forEach(key => {
-      if (inbound.has(key)) outbound.searchParams.set(key, inbound.get(key));
+
+    const keys = ["clickid","click_id","sub1","sub2","sub3","sub4","sub5","gclid","fbclid","ttclid",
+                  "utm_source","utm_medium","utm_campaign","utm_content","utm_term",
+                  "aff_id","offer_id","transaction_id"];
+
+    keys.forEach(key => {
+      // 1. Try URL params first
+      if (inbound.has(key)) {
+        outbound.searchParams.set(key, inbound.get(key));
+        return;
+      }
+      // 2. Try cookies (track.js often stores clickid here on mobile)
+      const fromCookie = getCookie(key);
+      if (fromCookie) {
+        outbound.searchParams.set(key, fromCookie);
+        return;
+      }
+      // 3. Try global variables set by track.js (e.g. window.clickid, window.rtkClickID)
+      const globalVal = window[key] || window['rtk_' + key] || window['rtkClickID'];
+      if (globalVal) {
+        outbound.searchParams.set(key, globalVal);
+      }
     });
+
     return outbound.toString();
   }
 
