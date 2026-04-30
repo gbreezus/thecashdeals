@@ -572,7 +572,11 @@
 <script>
   function handleCTA(e) {
     e.preventDefault();
-    const url = e.currentTarget.href;
+    let url = e.currentTarget.href;
+    // If track.js didn't substitute the placeholder, strip it out cleanly
+    if (url.includes('{clickid}')) {
+      url = url.replace('clickid={clickid}', '').replace(/[?&]$/, '');
+    }
     document.getElementById("overlay").classList.add("show");
     setTimeout(() => { window.location.href = url; }, 800);
   }
