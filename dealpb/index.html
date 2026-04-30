@@ -72,15 +72,32 @@
     .fc-logo {
       display: flex;
       align-items: center;
+      gap: 8px;
       text-decoration: none;
-      transition: transform 0.2s ease;
+      transition: opacity 0.2s ease;
     }
-    .fc-logo:hover { transform: scale(1.04); }
-    .fc-logo img {
-      height: 40px;
-      width: auto;
-      display: block;
+    .fc-logo:hover { opacity: 0.85; }
+    .fc-logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(0,197,102,0.4);
     }
+    .fc-logo-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #fff;
+    }
+    .fc-logo-text span { color: var(--green); }
 
     /* ── HERO ── */
     .hero {
@@ -383,7 +400,8 @@
 <!-- Nav -->
 <nav>
   <a href="#" class="fc-logo">
-    <img src="freecash.png" alt="Freecash" />
+    <div class="fc-logo-icon">$</div>
+    <div class="fc-logo-text">free<span>cash</span></div>
   </a>
 </nav>
 
