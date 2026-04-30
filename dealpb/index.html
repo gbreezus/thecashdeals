@@ -542,7 +542,6 @@
 <script>
   const RedTracKCampUrl = "https://trk.thecashdeals.com/click";
 
-  // Read a cookie by name
   function getCookie(name) {
     const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
     return match ? decodeURIComponent(match[1]) : null;
@@ -552,27 +551,34 @@
     const inbound  = new URLSearchParams(window.location.search);
     const outbound = new URL(RedTracKCampUrl);
 
-    const keys = ["clickid","click_id","sub1","sub2","sub3","sub4","sub5","gclid","fbclid","ttclid",
-                  "utm_source","utm_medium","utm_campaign","utm_content","utm_term",
-                  "aff_id","offer_id","transaction_id"];
+    // Resolve the click ID — track.js uses rtkcid in URL, rtkClickID as global, rtkclickid-store as cookie
+    const clickid = inbound.get('rtkcid')
+      || inbound.get('clickid')
+      || window.rtkClickID
+      || getCookie('rtkclickid-store')
+      || getCookie('clickid')
+      || '';
 
-    keys.forEach(key => {
-      // 1. Try URL params first
-      if (inbound.has(key)) {
-        outbound.searchParams.set(key, inbound.get(key));
-        return;
-      }
-      // 2. Try cookies (track.js often stores clickid here on mobile)
-      const fromCookie = getCookie(key);
-      if (fromCookie) {
-        outbound.searchParams.set(key, fromCookie);
-        return;
-      }
-      // 3. Try global variables set by track.js (e.g. window.clickid, window.rtkClickID)
-      const globalVal = window[key] || window['rtk_' + key] || window['rtkClickID'];
-      if (globalVal) {
-        outbound.searchParams.set(key, globalVal);
-      }
+    if (clickid) outbound.searchParams.set('clickid', clickid);
+
+    // Campaign ID
+    const cmpid = inbound.get('rtkcmpid') || window.campaignID || '';
+    if (cmpid) outbound.searchParams.set('rtkcmpid', cmpid);
+
+    // Cache buster
+    const cb = window.cachebuster || Date.now();
+    outbound.searchParams.set('rtkck', cb);
+
+    // Facebook params track.js picks up
+    const fbp = getCookie('_fbp') || window.rtkfbp || '';
+    const fbc = getCookie('_fbc') || window.rtkfbc || '';
+    if (fbp) outbound.searchParams.set('sub19', fbp);
+    if (fbc) outbound.searchParams.set('sub20', fbc);
+
+    // Forward any extra UTM / sub params from inbound URL
+    ["sub1","sub2","sub3","sub4","sub5","gclid","fbclid","ttclid",
+     "utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(key => {
+      if (inbound.has(key)) outbound.searchParams.set(key, inbound.get(key));
     });
 
     return outbound.toString();
