@@ -570,7 +570,7 @@
 
 
 <script>
-  const RedTracKCampUrl = "https://trk.thecashdeals.com/click";
+  const BASE_URL = "https://linkthem.net/aff_c?offer_id=3817&aff_id=174994&source={clickid}&source_id=facebook";
 
   function getCookie(name) {
     const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
@@ -578,11 +578,9 @@
   }
 
   function buildOfferUrl() {
-    const inbound  = new URLSearchParams(window.location.search);
-    const outbound = new URL(RedTracKCampUrl);
+    const inbound = new URLSearchParams(window.location.search);
     const ss = sessionStorage;
 
-    // Click ID — sessionStorage wins (immune to Safari ITP), then track.js globals, then cookies
     const clickid = ss.getItem('_rtkcid')
       || inbound.get('rtkcid')
       || inbound.get('clickid')
@@ -590,29 +588,7 @@
       || getCookie('rtkclickid-store')
       || '';
 
-    if (clickid) outbound.searchParams.set('clickid', clickid);
-
-    // Campaign ID
-    const cmpid = ss.getItem('_rtkcmpid') || inbound.get('rtkcmpid') || window.campaignID || '';
-    if (cmpid) outbound.searchParams.set('rtkcmpid', cmpid);
-
-    // Cache buster
-    outbound.searchParams.set('rtkck', window.cachebuster || Date.now());
-
-    // Facebook params
-    const fbp = getCookie('_fbp') || window.rtkfbp || '';
-    const fbc = getCookie('_fbc') || window.rtkfbc || '';
-    if (fbp) outbound.searchParams.set('sub19', fbp);
-    if (fbc) outbound.searchParams.set('sub20', fbc);
-
-    // UTM / sub params
-    ["sub1","sub2","sub3","sub4","sub5","gclid","fbclid","ttclid",
-     "utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(key => {
-      const val = ss.getItem('_' + key) || inbound.get(key);
-      if (val) outbound.searchParams.set(key, val);
-    });
-
-    return outbound.toString();
+    return BASE_URL.replace('{clickid}', encodeURIComponent(clickid));
   }
 
   function handleCTA(e) {
